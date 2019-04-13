@@ -23,7 +23,7 @@ namespace FishFactoryView
             InitializeComponent();
             this.service = service;
         }
-        private void Customers_Load(object sender, EventArgs e)
+        private void Storages_Load(object sender, EventArgs e)
         {
             LoadData();
         }

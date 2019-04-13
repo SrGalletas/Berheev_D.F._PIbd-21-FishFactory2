@@ -96,6 +96,7 @@
             this.Controls.Add(this.dataGridView);
             this.Name = "Storages";
             this.Text = "Склады";
+            this.Load += new System.EventHandler(this.Storages_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.ResumeLayout(false);
 
