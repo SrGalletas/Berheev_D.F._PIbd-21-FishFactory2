@@ -134,6 +134,6 @@ namespace FishFactoryView
             LoadData();
         }
 
-        
+       
     }
 }

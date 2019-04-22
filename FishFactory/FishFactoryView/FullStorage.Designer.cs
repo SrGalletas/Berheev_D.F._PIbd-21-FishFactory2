@@ -104,11 +104,10 @@
             // comboBoxTypeOfFish
             // 
             this.comboBoxTypeOfFish.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxTypeOfFish.FormattingEnabled = true;
             this.comboBoxTypeOfFish.Location = new System.Drawing.Point(73, 51);
             this.comboBoxTypeOfFish.Name = "comboBoxTypeOfFish";
             this.comboBoxTypeOfFish.Size = new System.Drawing.Size(286, 21);
-            this.comboBoxTypeOfFish.TabIndex = 10;
+            this.comboBoxTypeOfFish.TabIndex = 0;
             // 
             // FullStorage
             // 

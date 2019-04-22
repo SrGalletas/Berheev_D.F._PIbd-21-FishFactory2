@@ -104,6 +104,7 @@
             this.Controls.Add(this.label1);
             this.Name = "Storage";
             this.Text = "Склад";
+            this.Load += new System.EventHandler(this.Storage_Load);
             this.groupBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.ResumeLayout(false);

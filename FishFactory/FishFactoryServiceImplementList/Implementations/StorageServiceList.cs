@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using FishFactoryServiceDAL.BindingM;
 using FishFactoryServiceDAL.ViewM;
-using FishFactoryServiceDAL.Interfaces;
 using FishFactoryModel;
 
 namespace FishFactoryServiceImplementList.Implementations

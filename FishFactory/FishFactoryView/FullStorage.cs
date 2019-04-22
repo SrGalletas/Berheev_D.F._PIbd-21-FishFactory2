@@ -36,7 +36,7 @@ namespace FishFactoryView
                 List<TypeOfFishViewM> listC = serviceC.GetList();
                 if (listC != null)
                 {
-                    comboBoxTypeOfFish.DisplayMember = "ComponentName";
+                    comboBoxTypeOfFish.DisplayMember = "TypeOfFishName";
                     comboBoxTypeOfFish.ValueMember = "Id";
                     comboBoxTypeOfFish.DataSource = listC;
                     comboBoxTypeOfFish.SelectedItem = null;
@@ -101,5 +101,7 @@ namespace FishFactoryView
             DialogResult = DialogResult.Cancel;
             Close();
         }
+
+        
     }
 }
