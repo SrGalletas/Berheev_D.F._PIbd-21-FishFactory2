@@ -13,7 +13,7 @@ namespace FishFactoryServiceDAL.Interfaces
         void SaveCannedFoodCost(ReptBindingM model);
         List<StoragesLoadViewM> GetStoragesLoad();
         void SaveStoragesLoad(ReptBindingM model);
-        List<CustomerRequestsM> GetCutomerRequests(ReptBindingM model);
+        List<CustomerRequestsM> GetCustomerRequests(ReptBindingM model);
         void SaveCustomerRequests(ReptBindingM model);
     }
 }

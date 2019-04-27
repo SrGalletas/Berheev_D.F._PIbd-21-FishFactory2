@@ -109,6 +109,12 @@
     <Compile Include="Customer.Designer.cs">
       <DependentUpon>Customer.cs</DependentUpon>
     </Compile>
+    <Compile Include="CustomerRequests.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomerRequests.Designer.cs">
+      <DependentUpon>CustomerRequests.cs</DependentUpon>
+    </Compile>
     <Compile Include="Customers.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -178,12 +184,16 @@
     <EmbeddedResource Include="Customer.resx">
       <DependentUpon>Customer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CustomerRequests.resx">
+      <DependentUpon>CustomerRequests.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Customers.resx">
       <DependentUpon>Customers.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Rept.rdlc" />
     <EmbeddedResource Include="StoragesLoad.resx">
       <DependentUpon>StoragesLoad.cs</DependentUpon>
     </EmbeddedResource>
@@ -215,6 +225,7 @@
       <DependentUpon>TypesOfFish.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\FishFactoryServiceDAL.ViewM.CustomerRequestsM.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
