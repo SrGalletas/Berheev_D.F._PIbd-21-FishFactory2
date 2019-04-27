@@ -101,8 +101,7 @@
 
         private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.Button buttonSaveToExcel;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Storage;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Part;
+       
         private System.Windows.Forms.DataGridViewTextBoxColumn Count;
         private System.Windows.Forms.DataGridViewTextBoxColumn StorageName;
         private System.Windows.Forms.DataGridViewTextBoxColumn PartName;

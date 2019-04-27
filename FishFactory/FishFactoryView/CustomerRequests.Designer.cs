@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.buttonToPdf = new System.Windows.Forms.Button();
+            this.buttonMake = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.dateTimePickerTo = new System.Windows.Forms.DateTimePicker();
             this.dateTimePickerFrom = new System.Windows.Forms.DateTimePicker();
-            this.buttonMake = new System.Windows.Forms.Button();
-            this.buttonToPdf = new System.Windows.Forms.Button();
             this.reportViewer = new Microsoft.Reporting.WinForms.ReportViewer();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -51,6 +51,26 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(798, 40);
             this.panel1.TabIndex = 0;
+            // 
+            // buttonToPdf
+            // 
+            this.buttonToPdf.Location = new System.Drawing.Point(671, 10);
+            this.buttonToPdf.Name = "buttonToPdf";
+            this.buttonToPdf.Size = new System.Drawing.Size(96, 23);
+            this.buttonToPdf.TabIndex = 6;
+            this.buttonToPdf.Text = "В pdf";
+            this.buttonToPdf.UseVisualStyleBackColor = true;
+            this.buttonToPdf.Click += new System.EventHandler(this.buttonToPdf_Click);
+            // 
+            // buttonMake
+            // 
+            this.buttonMake.Location = new System.Drawing.Point(487, 10);
+            this.buttonMake.Name = "buttonMake";
+            this.buttonMake.Size = new System.Drawing.Size(95, 23);
+            this.buttonMake.TabIndex = 5;
+            this.buttonMake.Text = "Сформировать";
+            this.buttonMake.UseVisualStyleBackColor = true;
+            this.buttonMake.Click += new System.EventHandler(this.buttonMake_Click);
             // 
             // label2
             // 
@@ -84,34 +104,14 @@
             this.dateTimePickerFrom.Size = new System.Drawing.Size(155, 20);
             this.dateTimePickerFrom.TabIndex = 0;
             // 
-            // buttonMake
-            // 
-            this.buttonMake.Location = new System.Drawing.Point(487, 10);
-            this.buttonMake.Name = "buttonMake";
-            this.buttonMake.Size = new System.Drawing.Size(95, 23);
-            this.buttonMake.TabIndex = 5;
-            this.buttonMake.Text = "Сформировать";
-            this.buttonMake.UseVisualStyleBackColor = true;
-            this.buttonMake.Click += new System.EventHandler(this.buttonMake_Click);
-            // 
-            // buttonToPdf
-            // 
-            this.buttonToPdf.Location = new System.Drawing.Point(671, 10);
-            this.buttonToPdf.Name = "buttonToPdf";
-            this.buttonToPdf.Size = new System.Drawing.Size(96, 23);
-            this.buttonToPdf.TabIndex = 6;
-            this.buttonToPdf.Text = "В pdf";
-            this.buttonToPdf.UseVisualStyleBackColor = true;
-            this.buttonToPdf.Click += new System.EventHandler(this.buttonToPdf_Click);
-            // 
             // reportViewer
             // 
             this.reportViewer.LocalReport.ReportEmbeddedResource = "FishFactoryView.Rept.rdlc";
-            this.reportViewer.Location = new System.Drawing.Point(4, 46);
+            this.reportViewer.Location = new System.Drawing.Point(2, 38);
             this.reportViewer.Name = "reportViewer";
             this.reportViewer.ServerReport.BearerToken = null;
-            this.reportViewer.Size = new System.Drawing.Size(795, 401);
-            this.reportViewer.TabIndex = 1;
+            this.reportViewer.Size = new System.Drawing.Size(798, 409);
+            this.reportViewer.TabIndex = 0;
             // 
             // CustomerRequests
             // 
@@ -122,7 +122,6 @@
             this.Controls.Add(this.panel1);
             this.Name = "CustomerRequests";
             this.Text = "Заказы клиентов";
-            this.Load += new System.EventHandler(this.CustomerRequests_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);

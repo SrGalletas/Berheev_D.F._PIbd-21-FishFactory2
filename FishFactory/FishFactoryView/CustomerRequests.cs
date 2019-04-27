@@ -34,7 +34,7 @@ namespace FishFactoryView
             }
             try
             {
-                ReportParameter parameter = new ReportParameter("ReportParameterPeriod",
+                ReportParameter parameter = new ReportParameter("ReptParameterPeriod",
                 "c " +
                 dateTimePickerFrom.Value.ToShortDateString() +
                 " по " +
@@ -45,7 +45,7 @@ namespace FishFactoryView
                     DateFrom = dateTimePickerFrom.Value,
                     DateTo = dateTimePickerTo.Value
                 });
-                ReportDataSource source = new ReportDataSource("DataSetOrders",
+                ReportDataSource source = new ReportDataSource("DataSetRequests",
                 dataSource);
                 reportViewer.LocalReport.DataSources.Add(source);
                 reportViewer.RefreshReport();
@@ -89,10 +89,7 @@ namespace FishFactoryView
             }
         }
 
-        private void CustomerRequests_Load(object sender, EventArgs e)
-        {
-
-            this.reportViewer.RefreshReport();
-        }
+        
+        
     }
 }
