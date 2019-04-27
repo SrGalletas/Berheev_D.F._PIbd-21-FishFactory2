@@ -10,6 +10,7 @@ using FishFactoryServiceImplementDataBase;
 using Unity;
 using Unity.Lifetime;
 using AbstractGarmentFactoryServiceImplementDataBase.Implementations;
+using FishFactoryServiceImplementDataBase.Implementations;
 
 namespace FishFactoryView
 {
@@ -40,8 +41,11 @@ HierarchicalLifetimeManager());
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IStorageService, StorageServiceDb>(new
             HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IReptService, ReptServiceDb>(new
+            HierarchicalLifetimeManager());
             currentContainer.RegisterType<DbContext, AbstractDbEnvironment>(new HierarchicalLifetimeManager());
             return currentContainer;
+            
         }
     }
 }
