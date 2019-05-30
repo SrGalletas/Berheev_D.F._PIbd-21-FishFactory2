@@ -64,6 +64,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -245,13 +246,13 @@
       <Project>{fc3127df-a9ae-4916-9aea-1360fce48b45}</Project>
       <Name>FishFactoryModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FishFactoryRestApi\FishFactoryRestApi.csproj">
+      <Project>{9be3fd70-5bb9-4515-add0-11bbeec6a4e0}</Project>
+      <Name>FishFactoryRestApi</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FishFactoryServiceDAL\FishFactoryServiceDAL.csproj">
       <Project>{4f955128-8894-4f18-a29c-5ace7dfd8f94}</Project>
       <Name>FishFactoryServiceDAL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FishFactoryServiceImplementDataBase\FishFactoryServiceImplementDataBase.csproj">
-      <Project>{3489f7bf-b4a3-44e7-8548-58ad5817acaa}</Project>
-      <Name>FishFactoryServiceImplementDataBase</Name>
     </ProjectReference>
     <ProjectReference Include="..\FishFactoryServiceImplementList\FishFactoryServiceImplementList.csproj">
       <Project>{ee3a94f8-50e4-4467-bd01-80e7667a7360}</Project>

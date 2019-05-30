@@ -10,7 +10,7 @@ namespace FishFactoryServiceDAL.ViewM
     [DataContract]
     public class CustomerRequestsM
     {
-        [DataContract]
+        [DataMember]
         public string CustomerName { get; set; }
         [DataMember]
         public string DateCreate { get; set; }

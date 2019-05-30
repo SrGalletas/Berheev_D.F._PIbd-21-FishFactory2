@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FishFactoryView
 {
-    public static class APIClient
+    class APIClient
     {
         private static HttpClient client = new HttpClient();
         public static void Connect()
@@ -26,7 +26,7 @@ namespace FishFactoryView
             {
                 return response.Result.Content.ReadAsAsync<T>().Result;
             }
-            throw new Exception(response.Result.Content.ReadAsStringAsync().Result); 145
+            throw new Exception(response.Result.Content.ReadAsStringAsync().Result);
         }
         public static U PostRequest<T, U>(string requestUrl, T model)
         {

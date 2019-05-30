@@ -6,9 +6,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using FishFactoryServiceDAL.Interfaces;
 using FishFactoryServiceImplementList.Implementations;
-using FishFactoryServiceImplementDataBase;
-using AbstractGarmentFactoryServiceImplementDataBase.Implementations;
-using FishFactoryServiceImplementDataBase.Implementations;
 
 namespace FishFactoryView
 {
@@ -20,6 +17,7 @@ namespace FishFactoryView
         [STAThread]
         static void Main()
         {
+            APIClient.Connect();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new FormMain());

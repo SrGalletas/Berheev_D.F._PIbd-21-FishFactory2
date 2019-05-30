@@ -10,19 +10,14 @@ using System.Windows.Forms;
 using FishFactoryServiceDAL.BindingM;
 using FishFactoryServiceDAL.ViewM;
 using FishFactoryServiceDAL.Interfaces;
-using Unity;
 
 namespace FishFactoryView
 {
     public partial class TypesOfFish : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
-        private readonly ITypeOfFishService service;
-        public TypesOfFish(ITypeOfFishService service)
+        public TypesOfFish()
         {
             InitializeComponent();
-            this.service = service;
         }
         private void TypesOfFish_Load(object sender, EventArgs e)
         {
@@ -32,7 +27,7 @@ namespace FishFactoryView
         {
             try
             {
-                List<TypeOfFishViewM> list = service.GetList();
+                List<TypeOfFishViewM> list = APIClient.GetRequest<List<TypeOfFishViewM>>("api/TypeOfFish/GetList");
                 if (list != null)
                 {
                     dataGridView.DataSource = list;
@@ -49,7 +44,7 @@ namespace FishFactoryView
         }
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<TypeOfFish>();
+            var form = new TypeOfFish();
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
@@ -59,7 +54,7 @@ namespace FishFactoryView
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var form = Container.Resolve<TypeOfFish>();
+                var form = new TypeOfFish();
                 form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -78,7 +73,7 @@ namespace FishFactoryView
                     Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                     try
                     {
-                        service.DelElement(id);
+                        APIClient.PostRequest<TypeOfFishBindingM, bool>("api/TypeOfFish/DelElement", new TypeOfFishBindingM { Id = id });
                     }
                     catch (Exception ex)
                     {

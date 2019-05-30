@@ -16,7 +16,6 @@ namespace FishFactoryView
     public partial class Customer : Form
     {
         public int Id { set { id = value; } }
-        private readonly ICustomerService service;
         private int? id;
         public Customer()
         {

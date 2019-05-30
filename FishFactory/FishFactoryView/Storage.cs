@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Unity;
 using FishFactoryServiceDAL.BindingM;
 using FishFactoryServiceDAL.ViewM;
 
@@ -16,15 +15,11 @@ namespace FishFactoryView
 {
     public partial class Storage : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
         public int Id { set { id = value; } }
-        private readonly IStorageService service;
         private int? id;
-        public Storage(IStorageService service)
+        public Storage()
         {
             InitializeComponent();
-            this.service = service;
         }
         private void Storage_Load(object sender, EventArgs e)
         {
@@ -32,7 +27,7 @@ namespace FishFactoryView
             {
                 try
                 {
-                    StorageViewM view = service.GetElement(id.Value);
+                    StorageViewM view = APIClient.GetRequest<StorageViewM>("api/Storage/Get/" + id.Value);
                     if (view != null)
                     {
                         textBoxName.Text = view.StorageName;
@@ -63,7 +58,7 @@ namespace FishFactoryView
             {
                 if (id.HasValue)
                 {
-                    service.UpdElement(new StorageBindingM
+                    APIClient.PostRequest<StorageBindingM, bool>("api/Storage/UpdElement", new StorageBindingM
                     {
                         Id = id.Value,
                         StorageName = textBoxName.Text
@@ -71,7 +66,7 @@ namespace FishFactoryView
                 }
                 else
                 {
-                    service.AddElement(new StorageBindingM
+                    APIClient.PostRequest<StorageBindingM, bool>("api/Storage/AddElement", new StorageBindingM
                     {
                         StorageName = textBoxName.Text
                     });

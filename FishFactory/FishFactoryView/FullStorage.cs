@@ -10,30 +10,20 @@ using System.Windows.Forms;
 using FishFactoryServiceDAL.BindingM;
 using FishFactoryServiceDAL.ViewM;
 using FishFactoryServiceDAL.Interfaces;
-using Unity;
 
 namespace FishFactoryView
 {
     public partial class FullStorage : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
-        private readonly IStorageService serviceS;
-        private readonly ITypeOfFishService serviceC;
-        private readonly IMainService serviceM;
-        public FullStorage(IStorageService serviceS, ITypeOfFishService serviceC,
-        IMainService serviceM)
+        public FullStorage()
         {
             InitializeComponent();
-            this.serviceS = serviceS;
-            this.serviceC = serviceC;
-            this.serviceM = serviceM;
         }
         private void FullStorage_Load(object sender, EventArgs e)
         {
             try
             {
-                List<TypeOfFishViewM> listC = serviceC.GetList();
+                List<TypeOfFishViewM> listC = APIClient.GetRequest<List<TypeOfFishViewM>>("api/TypeOfFish/GetList");
                 if (listC != null)
                 {
                     comboBoxTypeOfFish.DisplayMember = "TypeOfFishName";
@@ -41,7 +31,7 @@ namespace FishFactoryView
                     comboBoxTypeOfFish.DataSource = listC;
                     comboBoxTypeOfFish.SelectedItem = null;
                 }
-                List<StorageViewM> listS = serviceS.GetList();
+                List<StorageViewM> listS = APIClient.GetRequest<List<StorageViewM>>("api/Storage/GetList");
                 if (listS != null)
                 {
                     
@@ -79,7 +69,7 @@ namespace FishFactoryView
             }
             try
             {
-                serviceM.PutTypeOfFishOnStorage(new StorageFishBindingM
+                APIClient.PostRequest<StorageFishBindingM, bool>("api/Main/PutTypeOfFishOnStorage", new StorageFishBindingM
                 {
                     TypeOfFishId = Convert.ToInt32(comboBoxTypeOfFish.SelectedValue),
                     StorageId = Convert.ToInt32(comboBoxStorage.SelectedValue),

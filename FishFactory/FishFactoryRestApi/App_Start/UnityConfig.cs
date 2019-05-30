@@ -1,10 +1,11 @@
 using System;
 using System.Data.Entity;
-using Unity;
-using Unity.Lifetime;
 using FishFactoryServiceDAL.Interfaces;
 using FishFactoryServiceImplementDataBase.Implementations;
 using AbstractGarmentFactoryServiceImplementDataBase.Implementations;
+using Unity;
+using Unity.Lifetime;
+using FishFactoryServiceImplementDataBase;
 
 namespace FishFactoryRestApi
 {
@@ -46,7 +47,7 @@ namespace FishFactoryRestApi
 
             // TODO: Register your type's mappings here.
             // container.RegisterType<IProductRepository, ProductRepository>();
-            container.RegisterType<DbContext, AbstractDbContext>(new
+            container.RegisterType<DbContext, AbstractDbEnvironment>(new
 HierarchicalLifetimeManager());
           container.RegisterType<IReptService, ReptServiceDb>(new
             HierarchicalLifetimeManager());
