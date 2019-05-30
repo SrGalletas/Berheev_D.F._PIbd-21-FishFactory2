@@ -10,22 +10,16 @@ using System.Windows.Forms;
 using FishFactoryServiceDAL.BindingM;
 using FishFactoryServiceDAL.ViewM;
 using FishFactoryServiceDAL.Interfaces;
-using Unity;
 
 namespace FishFactoryView
 {
     public partial class CannedFood : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
         public int Id { set { id = value; } }
-        private readonly ICannedFoodService service;
         private int? id;
-        private List<TypeOfCannedViewM> typeOfCanneds;
-        public CannedFood(ICannedFoodService service)
+        public CannedFood()
         {
             InitializeComponent();
-            this.service = service;
         }
         private void CannedFood_Load(object sender, EventArgs e)
         {
@@ -33,24 +27,17 @@ namespace FishFactoryView
             {
                 try
                 {
-                    CannedFoodViewM view = service.GetElement(id.Value);
-                    if (view != null)
-                    {
+
+                    CannedFoodViewM view = APIClient.GetRequest<CannedFoodViewM>("api/CannedFood/Get/" + id.Value);
                         textBoxName.Text = view.CannedFoodName;
                         textBoxCost.Text = view.Cost.ToString();
-                        typeOfCanneds = view.TypeOfCanned;
-                        LoadData();
-                    }
+                    
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
                 }
-            }
-            else
-            {
-                typeOfCanneds = new List<TypeOfCannedViewM>();
             }
         }
         private void LoadData()

@@ -10,21 +10,17 @@ using System.Windows.Forms;
 using FishFactoryServiceDAL.BindingM;
 using FishFactoryServiceDAL.ViewM;
 using FishFactoryServiceDAL.Interfaces;
-using Unity;
 
 namespace FishFactoryView
 {
     public partial class Customer : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
         public int Id { set { id = value; } }
         private readonly ICustomerService service;
         private int? id;
-        public Customer(ICustomerService service)
+        public Customer()
         {
             InitializeComponent();
-            this.service = service;
         }
         private void Customer_Load(object sender, EventArgs e)
         {
@@ -32,11 +28,9 @@ namespace FishFactoryView
             {
                 try
                 {
-                    CustomerViewM view = service.GetElement(id.Value);
-                    if (view != null)
-                    {
-                        textBoxFIO.Text = view.CustomerFIO;
-                    }
+                    CustomerViewM customer =
+ APIClient.GetRequest<CustomerViewM>("api/Customer/Get/" + id.Value);
+                    textBoxFIO.Text = customer.CustomerFIO;
                 }
                 catch (Exception ex)
                 {
@@ -57,7 +51,8 @@ namespace FishFactoryView
             {
                 if (id.HasValue)
                 {
-                    service.UpdElement(new CustomerBindingM
+                    APIClient.PostRequest<CustomerBindingM,
+bool>("api/Customer/UpdElement", new CustomerBindingM
                     {
                         Id = id.Value,
                         CustomerFIO = textBoxFIO.Text
@@ -65,7 +60,8 @@ namespace FishFactoryView
                 }
                 else
                 {
-                    service.AddElement(new CustomerBindingM
+                    APIClient.PostRequest<CustomerBindingM,
+bool>("api/Customer/AddElement", new CustomerBindingM
                     {
                         CustomerFIO = textBoxFIO.Text
                     });

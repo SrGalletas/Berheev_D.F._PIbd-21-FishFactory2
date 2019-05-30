@@ -7,22 +7,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Unity;
 using FishFactoryServiceDAL.BindingM;
 using FishFactoryServiceDAL.Interfaces;
+using FishFactoryServiceDAL.ViewM;
 using Microsoft.Reporting.WinForms;
 
 namespace FishFactoryView
 {
     public partial class CustomerRequests : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
-        private readonly IReptService service;
-        public CustomerRequests(IReptService service)
+        public CustomerRequests()
         {
             InitializeComponent();
-            this.service = service;
         }
         private void buttonMake_Click(object sender, EventArgs e)
         {
@@ -40,13 +36,15 @@ namespace FishFactoryView
                 " по " +
                 dateTimePickerTo.Value.ToShortDateString());
                 reportViewer.LocalReport.SetParameters(parameter);
-                var dataSource = service.GetCustomerRequests(new ReptBindingM
+                List<CustomerRequestsM> response =
+APIClient.PostRequest<ReptBindingM,
+List<CustomerRequestsM>>("api/Rept/GetCustomerRequests", new ReptBindingM
                 {
                     DateFrom = dateTimePickerFrom.Value,
                     DateTo = dateTimePickerTo.Value
                 });
                 ReportDataSource source = new ReportDataSource("DataSetRequests",
-                dataSource);
+                response);
                 reportViewer.LocalReport.DataSources.Add(source);
                 reportViewer.RefreshReport();
             }
@@ -72,7 +70,8 @@ namespace FishFactoryView
             {
                 try
                 {
-                    service.SaveCustomerRequests(new ReptBindingM
+                    APIClient.PostRequest<ReptBindingM,
+bool>("api/Rept/SaveCustomerRequests", new ReptBindingM
                     {
                         FileNominal = sfd.FileName,
                         DateFrom = dateTimePickerFrom.Value,
