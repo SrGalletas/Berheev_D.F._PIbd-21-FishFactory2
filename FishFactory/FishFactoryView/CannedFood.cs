@@ -10,22 +10,17 @@ using System.Windows.Forms;
 using FishFactoryServiceDAL.BindingM;
 using FishFactoryServiceDAL.ViewM;
 using FishFactoryServiceDAL.Interfaces;
-using Unity;
 
 namespace FishFactoryView
 {
     public partial class CannedFood : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
         public int Id { set { id = value; } }
-        private readonly ICannedFoodService service;
         private int? id;
         private List<TypeOfCannedViewM> typeOfCanneds;
-        public CannedFood(ICannedFoodService service)
+        public CannedFood()
         {
             InitializeComponent();
-            this.service = service;
         }
         private void CannedFood_Load(object sender, EventArgs e)
         {
@@ -33,7 +28,8 @@ namespace FishFactoryView
             {
                 try
                 {
-                    CannedFoodViewM view = service.GetElement(id.Value);
+
+                    CannedFoodViewM view = APIClient.GetRequest<CannedFoodViewM>("api/CannedFood/Get/" + id.Value);
                     if (view != null)
                     {
                         textBoxName.Text = view.CannedFoodName;
@@ -47,10 +43,6 @@ namespace FishFactoryView
                     MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
                 }
-            }
-            else
-            {
-                typeOfCanneds = new List<TypeOfCannedViewM>();
             }
         }
         private void LoadData()
@@ -76,7 +68,7 @@ namespace FishFactoryView
         }
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<TypeOfCanned>();
+            var form = new TypeOfCanned();
             if (form.ShowDialog() == DialogResult.OK)
             {
                 if (form.Model != null)
@@ -94,7 +86,7 @@ namespace FishFactoryView
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var form = Container.Resolve<TypeOfCanned>();
+                var form = new TypeOfCanned();
                 form.Model =
                 typeOfCanneds[dataGridView.SelectedRows[0].Cells[0].RowIndex];
                 if (form.ShowDialog() == DialogResult.OK)
@@ -165,7 +157,7 @@ namespace FishFactoryView
                 }
                 if (id.HasValue)
                 {
-                    service.UpdElement(new CannedFoodBindingM
+                    APIClient.PostRequest<CannedFoodBindingM, bool>("api/CannedFood/UpdElement", new CannedFoodBindingM
                     {
                         Id = id.Value,
                         CannedFoodName = textBoxName.Text,
@@ -175,7 +167,7 @@ namespace FishFactoryView
                 }
                 else
                 {
-                    service.AddElement(new CannedFoodBindingM
+                    APIClient.PostRequest<CannedFoodBindingM, bool>("api/CannedFood/AddElement", new CannedFoodBindingM
                     {
                         CannedFoodName = textBoxName.Text,
                         Cost = Convert.ToInt32(textBoxCost.Text),

@@ -10,19 +10,14 @@ using System.Windows.Forms;
 using FishFactoryServiceDAL.BindingM;
 using FishFactoryServiceDAL.ViewM;
 using FishFactoryServiceDAL.Interfaces;
-using Unity;
 
 namespace FishFactoryView
 {
     public partial class Customers : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
-        private readonly ICustomerService service;
-        public Customers(ICustomerService service)
+        public Customers()
         {
             InitializeComponent();
-            this.service = service;
         }
         private void Customers_Load(object sender, EventArgs e)
         {
@@ -32,7 +27,7 @@ namespace FishFactoryView
         {
             try
             {
-                List<CustomerViewM> list = service.GetList();
+                List<CustomerViewM> list = APIClient.GetRequest<List<CustomerViewM>>("api/Customer/GetList");
                 if (list != null)
                 {
                     dataGridView.DataSource = list;
@@ -49,7 +44,7 @@ namespace FishFactoryView
         }
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<Customer>();
+            var form = new Customer();
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
@@ -59,7 +54,7 @@ namespace FishFactoryView
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var form = Container.Resolve<Customer>();
+                var form = new Customer();
                 form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -78,7 +73,8 @@ namespace FishFactoryView
                     Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                     try
                     {
-                        service.DelElement(id);
+                        APIClient.PostRequest<CustomerBindingM,
+   bool>("api/Customer/DelElement", new CustomerBindingM { Id = id });
                     }
                     catch (Exception ex)
                     {

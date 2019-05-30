@@ -10,21 +10,16 @@ using System.Windows.Forms;
 using FishFactoryServiceDAL.BindingM;
 using FishFactoryServiceDAL.ViewM;
 using FishFactoryServiceDAL.Interfaces;
-using Unity;
 
 namespace FishFactoryView
 {
     public partial class TypeOfFish : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
         public int Id { set { id = value; } }
-        private readonly ITypeOfFishService service;
         private int? id;
-        public TypeOfFish(ITypeOfFishService service)
+        public TypeOfFish()
         {
             InitializeComponent();
-            this.service = service;
         }
         private void TypeOfFish_Load(object sender, EventArgs e)
         {
@@ -32,7 +27,7 @@ namespace FishFactoryView
             {
                 try
                 {
-                    TypeOfFishViewM view = service.GetElement(id.Value);
+                    TypeOfFishViewM view = APIClient.GetRequest<TypeOfFishViewM>("api/TypeOfFish/Get/" + id.Value); ;
                     if (view != null)
                     {
                         textBoxName.Text = view.TypeOfFishName;
@@ -57,7 +52,7 @@ namespace FishFactoryView
             {
                 if (id.HasValue)
                 {
-                    service.UpdElement(new TypeOfFishBindingM
+                    APIClient.PostRequest<TypeOfFishBindingM, bool>("api/TypeOfFish/UpdElement", new TypeOfFishBindingM
                     {
                         Id = id.Value,
                         TypeOfFishName = textBoxName.Text
@@ -65,7 +60,7 @@ namespace FishFactoryView
                 }
                 else
                 {
-                    service.AddElement(new TypeOfFishBindingM
+                    APIClient.PostRequest<TypeOfFishBindingM, bool>("api/TypeOfFish/AddElement", new TypeOfFishBindingM
                     {
                         TypeOfFishName = textBoxName.Text
                     });

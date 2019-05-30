@@ -10,19 +10,14 @@ using System.Windows.Forms;
 using FishFactoryServiceDAL.BindingM;
 using FishFactoryServiceDAL.ViewM;
 using FishFactoryServiceDAL.Interfaces;
-using Unity;
 
 namespace FishFactoryView
 {
     public partial class CannedFoods : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
-        private readonly ICannedFoodService service;
-        public CannedFoods(ICannedFoodService service)
+        public CannedFoods()
         {
             InitializeComponent();
-            this.service = service;
         }
         private void CannedFoods_Load(object sender, EventArgs e)
         {
@@ -32,7 +27,7 @@ namespace FishFactoryView
         {
             try
             {
-                List<CannedFoodViewM> list = service.GetList();
+                List<CannedFoodViewM> list = APIClient.GetRequest<List<CannedFoodViewM>>("api/CannedFood/GetList/");
                 if (list != null)
                 {
                     dataGridView.DataSource = list;
@@ -49,7 +44,7 @@ namespace FishFactoryView
         }
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<CannedFood>();
+            var form =new CannedFood();
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
@@ -59,7 +54,7 @@ namespace FishFactoryView
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var form = Container.Resolve<CannedFood>();
+                var form = new CannedFood();
                 form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -78,7 +73,7 @@ namespace FishFactoryView
                         Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                     try
                     {
-                        service.DelElement(id);
+                        APIClient.PostRequest<CannedFoodBindingM, bool>("api/CannedFood/DelElement", new CannedFoodBindingM { Id = id });
                     }
                     catch (Exception ex)
                     {

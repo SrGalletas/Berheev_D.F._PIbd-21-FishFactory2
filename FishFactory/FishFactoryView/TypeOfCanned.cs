@@ -9,14 +9,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using FishFactoryServiceDAL.ViewM;
 using FishFactoryServiceDAL.Interfaces;
-using Unity;
 
 namespace FishFactoryView
 {
     public partial class TypeOfCanned : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
         public TypeOfCannedViewM Model
         {
             set { model = value; }
@@ -25,18 +22,16 @@ namespace FishFactoryView
                 return model;
             }
         }
-        private readonly ITypeOfFishService service;
         private TypeOfCannedViewM model;
-        public TypeOfCanned(ITypeOfFishService service)
+        public TypeOfCanned()
         {
             InitializeComponent();
-            this.service = service;
         }
         private void TypeOfCanned_Load(object sender, EventArgs e)
         {
             try
             {
-                List<TypeOfFishViewM> list = service.GetList();
+                List<TypeOfFishViewM> list = APIClient.GetRequest<List<TypeOfFishViewM>>("api/TypeOfFish/GetList");
                 if (list != null)
                 {
                     comboBoxTypeOfFish.DisplayMember = "TypeOfFishName";

@@ -1,4 +1,5 @@
-﻿using FishFactoryServiceDAL.Interfaces;
+﻿using FishFactoryServiceDAL.BindingM;
+using FishFactoryServiceDAL.Interfaces;
 using FishFactoryServiceDAL.ViewM;
 using System;
 using System.Collections.Generic;
@@ -9,19 +10,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Unity;
 
 namespace FishFactoryView
 {
     public partial class Storages : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
-        private readonly IStorageService service;
-        public Storages(IStorageService service)
+        public Storages()
         {
             InitializeComponent();
-            this.service = service;
         }
         private void Storages_Load(object sender, EventArgs e)
         {
@@ -31,7 +27,7 @@ namespace FishFactoryView
         {
             try
             {
-                List<StorageViewM> list = service.GetList();
+                List<StorageViewM> list = APIClient.GetRequest<List<StorageViewM>>("api/Storage/GetList");
                 if (list != null)
                 {
                     dataGridView.DataSource = list;
@@ -48,7 +44,7 @@ namespace FishFactoryView
         }
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<Storage>();
+            var form = new Storage();
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
@@ -58,7 +54,7 @@ namespace FishFactoryView
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var form = Container.Resolve<Storage>();
+                var form = new Storage();
                 form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -77,7 +73,7 @@ namespace FishFactoryView
                     Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                     try
                     {
-                        service.DelElement(id);
+                        APIClient.PostRequest<StorageBindingM, bool>("api/Storage/DelElement", new StorageBindingM { Id = id });
                     }
                     catch (Exception ex)
                     {

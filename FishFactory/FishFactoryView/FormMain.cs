@@ -10,27 +10,21 @@ using System.Windows.Forms;
 using FishFactoryServiceDAL.BindingM;
 using FishFactoryServiceDAL.ViewM;
 using FishFactoryServiceDAL.Interfaces;
-using Unity;
 
 namespace FishFactoryView
 {
     public partial class FormMain : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
-        private readonly IMainService service;
-        private readonly IReptService reptService;
-        public FormMain(IMainService service, IReptService reptService)
+        public FormMain()
         {
             InitializeComponent();
-            this.service = service;
-            this.reptService = reptService;
         }
         private void LoadData()
         {
             try
             {
-                List<RequestViewM> list = service.GetList();
+                List<RequestViewM> list =
+APIClient.GetRequest<List<RequestViewM>>("api/Main/GetList");
                 if (list != null)
                 {
                     dataGridView.DataSource = list;
@@ -50,33 +44,33 @@ namespace FishFactoryView
         }
         private void клиентыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<Customers>();
+            var form = new Customers();
             form.ShowDialog();
         }
         private void компонентыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<TypesOfFish>();
+            var form = new TypesOfFish();
             form.ShowDialog();
         }
         private void изделияToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<CannedFoods>();
+            var form = new CannedFoods();
             form.ShowDialog();
         }
         private void складыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<Storages>();
+            var form = new Storages();
             form.ShowDialog();
         }
 
         private void пополнитьСкладToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FullStorage>();
+            var form = new FullStorage();
             form.ShowDialog();
         }
         private void buttonCreateRequest_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<CreateRequest>();
+            var form = new CreateRequest();
             form.ShowDialog();
             LoadData();
         }
@@ -87,7 +81,8 @@ namespace FishFactoryView
                 int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 try
                 {
-                    service.TakeRequestInWork(new RequestBindingM { Id = id });
+                    APIClient.PostRequest<RequestBindingM,
+bool>("api/Main/TakeRequestInWork", new RequestBindingM{ Id = id });
                     LoadData();
                 }
                 catch (Exception ex)
@@ -104,7 +99,8 @@ namespace FishFactoryView
                 int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 try
                 {
-                    service.FinishRequest(new RequestBindingM { Id = id });
+                    APIClient.PostRequest<RequestBindingM,
+bool>("api/Main/FinishRequest", new RequestBindingM{ Id = id });
                     LoadData();
                 }
                 catch (Exception ex)
@@ -121,7 +117,8 @@ namespace FishFactoryView
                 int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 try
                 {
-                    service.PayRequest(new RequestBindingM { Id = id });
+                    APIClient.PostRequest<RequestBindingM, bool>("api/Main/.PostRequest",
+new RequestBindingM { Id = id });
                     LoadData();
                 }
                 catch (Exception ex)
@@ -145,7 +142,8 @@ namespace FishFactoryView
             {
                 try
                 {
-                    reptService.SaveCannedFoodCost(new ReptBindingM
+                    APIClient.PostRequest<ReptBindingM,
+bool>("api/Rept/SaveCannedFoodCost", new ReptBindingM
                     {
                         FileNominal = sfd.FileName
                     });
@@ -162,12 +160,12 @@ namespace FishFactoryView
         private void загруженностьСкладовToolStripMenuItem_Click(object sender, EventArgs
         e)
         {
-            var form = Container.Resolve<StoragesLoad>();
+            var form = new StoragesLoad();
             form.ShowDialog();
         }
         private void заказыКлиентовToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<CustomerRequests>();
+            var form = new CustomerRequests();
             form.ShowDialog();
         }
     }

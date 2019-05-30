@@ -1,26 +1,23 @@
 ﻿using FishFactoryServiceDAL.BindingM;
 using FishFactoryServiceDAL.Interfaces;
+using FishFactoryServiceDAL.ViewM;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
-using Unity;
 
 namespace FishFactoryView
 {
     public partial class StoragesLoad : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
-        private readonly IReptService service;
-        public StoragesLoad(IReptService service)
+        public StoragesLoad()
         {
             InitializeComponent();
-            this.service = service;
         }
         private void StoragesLoad_Load(object sender, EventArgs e)
         {
             try
             {
-                var dict = service.GetStoragesLoad();
+                var dict = APIClient.GetRequest<List<StoragesLoadViewM>>("api/Rept/GetStoragesLoad");
                 if (dict != null)
                 {
                     dataGridView.Rows.Clear();
@@ -51,7 +48,7 @@ namespace FishFactoryView
             {
                 try
                 {
-                    service.SaveStoragesLoad(new ReptBindingM
+                    APIClient.PostRequest<ReptBindingM, bool>("api/Rept/SaveStoragesLoad", new ReptBindingM
                     {
                         FileNominal = sfd.FileName
                     });

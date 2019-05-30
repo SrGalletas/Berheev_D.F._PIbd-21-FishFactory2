@@ -10,30 +10,20 @@ using System.Windows.Forms;
 using FishFactoryServiceDAL.BindingM;
 using FishFactoryServiceDAL.ViewM;
 using FishFactoryServiceDAL.Interfaces;
-using Unity;
 
 namespace FishFactoryView
 {
     public partial class CreateRequest : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
-        private readonly ICustomerService serviceC;
-        private readonly ICannedFoodService serviceP;
-        private readonly IMainService serviceM;
-        public CreateRequest(ICustomerService serviceC, ICannedFoodService serviceP,
-        IMainService serviceM)
+        public CreateRequest()
         {
             InitializeComponent();
-            this.serviceC = serviceC;
-            this.serviceP = serviceP;
-            this.serviceM = serviceM;
         }
         private void CreateRequest_Load(object sender, EventArgs e)
         {
             try
             {
-                List<CustomerViewM> listC = serviceC.GetList();
+                List<CustomerViewM> listC = APIClient.GetRequest<List<CustomerViewM>>("api/Customer/GetList");
                 if (listC != null)
                 {
                     comboBoxCustomer.DisplayMember = "CustomerFIO";
@@ -41,7 +31,7 @@ namespace FishFactoryView
                     comboBoxCustomer.DataSource = listC;
                     comboBoxCustomer.SelectedItem = null;
                 }
-                List<CannedFoodViewM> listP = serviceP.GetList();
+                List<CannedFoodViewM> listP = APIClient.GetRequest<List<CannedFoodViewM>>("api/CannedFood/GetList");
                 if (listP != null)
                 {
                     comboBoxCannedFood.DisplayMember = "CannedFoodName";
@@ -64,7 +54,7 @@ namespace FishFactoryView
                 try
                 {
                     int id = Convert.ToInt32(comboBoxCannedFood.SelectedValue);
-                    CannedFoodViewM cannedfood = serviceP.GetElement(id);
+                    CannedFoodViewM cannedfood = APIClient.GetRequest<CannedFoodViewM>("api/CannedFood/Get/" + id);
                     int count = Convert.ToInt32(textBoxTotal.Text);
                     textBoxAmount.Text = (count * cannedfood.Cost).ToString();
                 }
@@ -105,7 +95,7 @@ namespace FishFactoryView
             }
             try
             {
-                serviceM.CreateRequest(new RequestBindingM
+                APIClient.PostRequest<RequestBindingM, bool>("api/Main/CreateOrder", new RequestBindingM
                 {
                     CustomerId = Convert.ToInt32(comboBoxCustomer.SelectedValue),
                     CannedFoodId = Convert.ToInt32(comboBoxCannedFood.SelectedValue),
